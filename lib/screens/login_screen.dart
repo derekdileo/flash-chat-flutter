@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flash_chat_flutter/components/rounded_button.dart';
 import 'package:flash_chat_flutter/utilities/constants.dart';
+import 'package:flash_chat_flutter/screens/chat_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = '/login-screen';
@@ -22,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
               tag: kHeroTag,
               child: Container(
                 height: 200.0,
-                child: Image.asset('images/logo.png'),
+                child: Image.asset(kLogoPath),
               ),
             ),
             SizedBox(
@@ -80,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 24.0,
             ),
+            //RoundedButton(Colors.lightBlueAccent, ChatScreen.id, 'Log In'),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Material(
@@ -94,6 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 42.0,
                   child: Text(
                     'Log In',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
