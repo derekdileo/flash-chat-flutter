@@ -70,7 +70,18 @@ class _LoginScreenState extends State<LoginScreen> {
             RoundedButton(
                 colour: Colors.lightBlueAccent,
                 title: 'Log In',
-                onPress: () {}),
+                onPress: () async {
+                  try {
+                    final newUser = await _auth.signInWithEmailAndPassword(
+                        email: email, password: password);
+                    if (newUser.additionalUserInfo?.isNewUser != null) {
+                      print('Log in successful!');
+                      Navigator.pushNamed(context, ChatScreen.id);
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+                }),
           ],
         ),
       ),

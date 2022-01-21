@@ -74,6 +74,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       email: email, password: password);
                   if (newUser.additionalUserInfo?.isNewUser != null) {
                     // print(newUser.additionalUserInfo?.username.toString());
+                    print('Registration successful!');
                     Navigator.pushNamed(context, ChatScreen.id);
                   }
                 } catch (e) {
