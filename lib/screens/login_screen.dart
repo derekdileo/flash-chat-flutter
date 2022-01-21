@@ -75,27 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24.0,
             ),
             //RoundedButton(Colors.lightBlueAccent, ChatScreen.id, 'Log In'),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    //Implement login functionality.
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            RoundedButton(
+                colour: Colors.lightBlueAccent,
+                title: 'Log In',
+                onPress: () {}),
           ],
         ),
       ),
