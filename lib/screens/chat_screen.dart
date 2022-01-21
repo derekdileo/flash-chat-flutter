@@ -13,6 +13,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   late User signedInUser;
   late String messageText;
@@ -96,6 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   // Message field
                   Expanded(
                     child: TextField(
+                      controller: messageTextController,
                       onChanged: (value) {
                         //Do something with the user input.
                         messageText = value;
@@ -110,6 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         'sender': signedInUser.email,
                         'text': messageText,
                       });
+                      messageTextController.clear();
                     },
                     child: const Text(
                       'Send',
