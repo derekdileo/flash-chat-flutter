@@ -80,8 +80,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   }
                 } catch (e) {
                   print(e);
-                  print('Email or password not accepted');
-
+                  // Determine whether email or password rejected and
+                  // Display appropriate AlertDialog
                   String alertTitle = '';
                   String promptText = '';
                   if (e.toString().contains('password')) {
