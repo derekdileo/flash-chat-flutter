@@ -10,6 +10,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _auth = FirebaseAuth.instance;
+  String signedInUser = '';
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       decoration: kMessageTextFieldDecoration,
                     ),
                   ),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       //Implement send functionality.
                     },

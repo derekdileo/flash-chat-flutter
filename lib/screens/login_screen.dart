@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat_flutter/components/rounded_button.dart';
 import 'package:flash_chat_flutter/utilities/constants.dart';
 import 'package:flash_chat_flutter/screens/chat_screen.dart';
@@ -10,8 +12,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // Instantiate firebase auth instance
+  final _auth = FirebaseAuth.instance;
   String email = '';
   String password = '';
+
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp().whenComplete(() {
+      print("completed");
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

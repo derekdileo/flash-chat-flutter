@@ -1,7 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat_flutter/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat_flutter/components/rounded_button.dart';
 import 'package:flash_chat_flutter/utilities/constants.dart';
 
@@ -16,6 +16,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
   String email = '';
   String password = '';
+
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp().whenComplete(() {
+      print("completed");
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +81,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 try {
                   final newUser = await _auth.createUserWithEmailAndPassword(
                       email: email, password: password);
-                  if (newUser.user != null) {
+                  if (newUser.additionalUserInfo?.isNewUser != null) {
+                    print(newUser.additionalUserInfo?.username.toString());
                     Navigator.pushNamed(context, ChatScreen.id);
                   }
                 } catch (e) {
