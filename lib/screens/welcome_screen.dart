@@ -23,12 +23,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   void initState() {
-    super.initState();
-
     // Initialize AnimationController and ColorTween
     Firebase.initializeApp().whenComplete(() {
-      print("completed");
+      print("Firebase initializeApp() complete");
       setState(() {});
+      super.initState();
     });
     controller =
         AnimationController(duration: Duration(seconds: 1), vsync: this);
