@@ -125,11 +125,6 @@ class MessagesStream extends StatelessWidget {
 
           final currentUser = signedInUser.email;
 
-          if (currentUser == messageSender) {
-            // The message is from the signed in user
-
-          }
-
           final messageBubble = MessageBubble(
               sender: messageSender,
               text: messageText,
@@ -138,6 +133,7 @@ class MessagesStream extends StatelessWidget {
         }
         return Expanded(
           child: ListView(
+            reverse: true,
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
           ),
