@@ -37,6 +37,18 @@ const kTextFieldDecoration = InputDecoration(
   ),
 );
 
+const kBorderRadiusLeft = BorderRadius.only(
+  topRight: Radius.circular(30.0),
+  bottomLeft: Radius.circular(30.0),
+  bottomRight: Radius.circular(30.0),
+);
+
+const kBorderRadiusRight = BorderRadius.only(
+  topLeft: Radius.circular(30.0),
+  bottomLeft: Radius.circular(30.0),
+  bottomRight: Radius.circular(30.0),
+);
+
 // Animation! with SingleTickerProviderStateMixin
 // late AnimationController controller;
 // late Animation animation;

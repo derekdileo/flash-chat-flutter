@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat_flutter/utilities/constants.dart';
 
 final _firestore = FirebaseFirestore.instance;
+late User signedInUser;
 
 class ChatScreen extends StatefulWidget {
   static const String id = '/chat-screen';
@@ -15,7 +16,6 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
-  late User signedInUser;
   late String messageText;
 
   @override
@@ -123,8 +123,17 @@ class MessagesStream extends StatelessWidget {
           final messageText = message.get('text');
           final messageSender = message.get('sender');
 
-          final messageBubble =
-              MessageBubble(sender: messageSender, text: messageText);
+          final currentUser = signedInUser.email;
+
+          if (currentUser == messageSender) {
+            // The message is from the signed in user
+
+          }
+
+          final messageBubble = MessageBubble(
+              sender: messageSender,
+              text: messageText,
+              isMe: currentUser == messageSender);
           messageBubbles.add(messageBubble);
         }
         return Expanded(
@@ -139,29 +148,31 @@ class MessagesStream extends StatelessWidget {
 }
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble({required this.sender, required this.text});
+  MessageBubble({required this.sender, required this.text, required this.isMe});
 
   final String sender;
   final String text;
+  final bool isMe;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             sender,
-            textAlign: TextAlign.right,
-            style: TextStyle(
+            // textAlign: TextAlign.right,
+            style: const TextStyle(
               color: Colors.black54,
               fontSize: 12.0,
             ),
           ),
           Material(
-            borderRadius: BorderRadius.circular(30.0),
-            color: Colors.lightBlueAccent,
+            borderRadius: isMe ? kBorderRadiusRight : kBorderRadiusLeft,
+            color: isMe ? Colors.lightBlueAccent : Colors.white,
             elevation: 5.0,
             child: Padding(
               padding:
@@ -169,7 +180,7 @@ class MessageBubble extends StatelessWidget {
               child: Text(
                 '$text from $sender',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: isMe ? Colors.white : Colors.black54,
                   fontSize: 15.0,
                 ),
               ),
