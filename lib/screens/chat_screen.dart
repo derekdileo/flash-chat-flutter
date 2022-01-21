@@ -14,6 +14,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
+  final _messageScrollController = ScrollController();
   final _auth = FirebaseAuth.instance;
   late String messageText;
 
@@ -34,6 +35,11 @@ class _ChatScreenState extends State<ChatScreen> {
     } catch (e) {
       print(e);
     }
+  }
+
+  void _scrollDown() {
+    _messageScrollController
+        .jumpTo(_messageScrollController.position.maxScrollExtent);
   }
 
   @override
@@ -59,7 +65,7 @@ class _ChatScreenState extends State<ChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Messages area
-            MessagesStream(),
+            MessagesStream(scrollController: _messageScrollController),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -84,6 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         'text': messageText,
                       });
                       messageTextController.clear();
+                      _scrollDown();
                     },
                     child: const Text(
                       'Send',
@@ -101,6 +108,10 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 class MessagesStream extends StatelessWidget {
+  final ScrollController scrollController;
+
+  MessagesStream({required this.scrollController});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -132,8 +143,10 @@ class MessagesStream extends StatelessWidget {
               isMe: currentUser == messageSender);
           messageBubbles.add(messageBubble);
         }
+
         return Expanded(
           child: ListView(
+            controller: scrollController,
             reverse: false,
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
