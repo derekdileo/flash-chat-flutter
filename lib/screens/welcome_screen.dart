@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flash_chat_flutter/components/rounded_button.dart';
 import 'package:flash_chat_flutter/screens/login_screen.dart';
@@ -23,6 +25,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     super.initState();
 
     // Initialize AnimationController and ColorTween
+    Firebase.initializeApp().whenComplete(() {
+      print("completed");
+      setState(() {});
+    });
     controller =
         AnimationController(duration: Duration(seconds: 1), vsync: this);
 

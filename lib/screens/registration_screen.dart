@@ -18,15 +18,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String password = '';
 
   @override
-  void initState() {
-    super.initState();
-    Firebase.initializeApp().whenComplete(() {
-      print("completed");
-      setState(() {});
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -82,7 +73,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   final newUser = await _auth.createUserWithEmailAndPassword(
                       email: email, password: password);
                   if (newUser.additionalUserInfo?.isNewUser != null) {
-                    print(newUser.additionalUserInfo?.username.toString());
+                    // print(newUser.additionalUserInfo?.username.toString());
                     Navigator.pushNamed(context, ChatScreen.id);
                   }
                 } catch (e) {
