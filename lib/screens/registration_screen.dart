@@ -4,6 +4,7 @@ import 'package:flash_chat_flutter/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat_flutter/components/rounded_button.dart';
 import 'package:flash_chat_flutter/utilities/constants.dart';
+import 'package:flutter/services.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = '/registration-screen';
@@ -79,12 +80,52 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   }
                 } catch (e) {
                   print(e);
+                  print('Email or password not accepted');
+
+                  String alertTitle = '';
+                  String promptText = '';
+                  if (e.toString().contains('password')) {
+                    alertTitle = 'Invalid Password';
+                    promptText =
+                        'Password must be at least six characters. \nPlease try again';
+                  } else if (e.toString().contains('email')) {
+                    alertTitle = 'Invalid Email Format';
+                    promptText = 'Please try again';
+                  }
+                  _showMyDialog(alertTitle, promptText);
                 }
               },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(String alertTitle, String promptText) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(alertTitle),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(promptText),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
