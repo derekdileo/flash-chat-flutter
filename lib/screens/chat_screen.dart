@@ -108,7 +108,7 @@ class MessagesStream extends StatelessWidget {
       builder: (context, snapshot) {
         // Check if firebase connection successful
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlueAccent,
             ),
@@ -116,7 +116,9 @@ class MessagesStream extends StatelessWidget {
         }
         // If so, build a list of text widgets
         // to populate chat screen.
+        // final messages = snapshot.data?.docs.reversed;
         final messages = snapshot.data?.docs.reversed;
+
         List<MessageBubble> messageBubbles = [];
         for (var message in messages!) {
           final messageText = message.get('text');
@@ -132,7 +134,7 @@ class MessagesStream extends StatelessWidget {
         }
         return Expanded(
           child: ListView(
-            reverse: true,
+            reverse: false,
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
           ),
