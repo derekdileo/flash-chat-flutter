@@ -37,32 +37,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // void getMessages() async {
-  //   try {
-  //     final messages = await _firestore.collection('messages').get();
-  //     for (var message in messages.docs) {
-  //       print(message.data());
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // void messagesStream() async {
-  //   await for (var snapshot in _firestore.collection('messages').snapshots()) {
-  //     for (var message in snapshot.docs) {
-  //       print(message.data());
-  //     }
-  //   }
-  // }
-  //
-  // void newMessagesStream() async {
-  //   var newSnapshot = await _firestore.collection('messages').snapshots().last;
-  //   for (var newMessage in newSnapshot.docs) {
-  //     print(newMessage.data);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,10 +47,8 @@ class _ChatScreenState extends State<ChatScreen> {
               icon: Icon(Icons.close),
               onPressed: () {
                 //Implement logout functionality
-                // _auth.signOut();
-                // Navigator.pop(context);
-                // getMessages();
-                // messagesStream();
+                _auth.signOut();
+                Navigator.pop(context);
               }),
         ],
         title: const Text('⚡️Chat'),
