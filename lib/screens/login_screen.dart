@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Image.asset(kLogoPath),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 48.0,
             ),
             // Email entry
@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: 'Enter your email',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             // Password entry
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: 'Enter your password',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24.0,
             ),
             //RoundedButton(Colors.lightBlueAccent, ChatScreen.id, 'Log In'),
