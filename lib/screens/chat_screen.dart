@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat_flutter/utilities/constants.dart';
 
@@ -117,7 +116,7 @@ class MessagesStream extends StatelessWidget {
         }
         // If so, build a list of text widgets
         // to populate chat screen.
-        final messages = snapshot.data?.docs;
+        final messages = snapshot.data?.docs.reversed;
         List<MessageBubble> messageBubbles = [];
         for (var message in messages!) {
           final messageText = message.get('text');
@@ -160,7 +159,6 @@ class MessageBubble extends StatelessWidget {
         children: <Widget>[
           Text(
             sender,
-            // textAlign: TextAlign.right,
             style: const TextStyle(
               color: Colors.black54,
               fontSize: 12.0,
