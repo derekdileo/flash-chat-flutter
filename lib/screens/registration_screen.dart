@@ -22,10 +22,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      // Wrap all with progress hud.
+      // See inAsyncCall bool value changes for clarity
       body: ModalProgressHUD(
         inAsyncCall: showModalProgressSpinner,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -39,7 +41,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 48.0,
               ),
               // Email entry
@@ -54,7 +56,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   hintText: 'Enter your email',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8.0,
               ),
               // Password entry
@@ -68,7 +70,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   hintText: 'Enter your password',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24.0,
               ),
               RoundedButton(
@@ -82,15 +84,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     final newUser = await _auth.createUserWithEmailAndPassword(
                         email: email, password: password);
                     if (newUser.additionalUserInfo?.isNewUser != null) {
-                      // print(newUser.additionalUserInfo?.username.toString());
-                      print('Registration successful!');
                       Navigator.pushNamed(context, ChatScreen.id);
                     }
                     setState(() {
                       showModalProgressSpinner = false;
                     });
                   } catch (e) {
-                    print(e);
                     // Determine whether email or password rejected and
                     // Display appropriate AlertDialog
                     String alertTitle = '';

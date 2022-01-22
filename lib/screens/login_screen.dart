@@ -24,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      // Wrap all with progress hud.
+      // See inAsyncCall bool value changes for clarity
       body: ModalProgressHUD(
         inAsyncCall: showModalProgressSpinner,
         child: Padding(
@@ -85,7 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       final newUser = await _auth.signInWithEmailAndPassword(
                           email: email, password: password);
                       if (newUser.additionalUserInfo?.isNewUser != null) {
-                        print('Log in successful!');
                         Navigator.pushNamed(context, ChatScreen.id);
                       }
                       setState(() {
