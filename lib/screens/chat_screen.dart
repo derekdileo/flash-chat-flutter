@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flash_chat_flutter/components/message_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +16,6 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
-  // final _messageScrollController = ScrollController();
   final _auth = FirebaseAuth.instance;
   late String messageText;
 
@@ -38,11 +37,6 @@ class _ChatScreenState extends State<ChatScreen> {
       print(e);
     }
   }
-
-  // void _scrollDown() {
-  //   _messageScrollController
-  //       .jumpTo(_messageScrollController.position.maxScrollExtent);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +61,8 @@ class _ChatScreenState extends State<ChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Messages area
-            // MessagesStream(scrollController: _messageScrollController),
             MessagesStream(),
+            // Text Entry & Send Button
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -76,19 +70,19 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   // Message field
                   Expanded(
+                    // Message Text Entry
                     child: TextField(
                       autofocus: true,
                       controller: messageTextController,
                       onChanged: (value) {
-                        //Do something with the user input.
                         messageText = value;
                       },
                       decoration: kMessageTextFieldDecoration,
                     ),
                   ),
+                  // Send Button
                   TextButton(
                     onPressed: () {
-                      //Implement send functionality.
                       _firestore.collection('messages').add({
                         'sender': signedInUser.email,
                         'text': messageText,
@@ -164,50 +158,6 @@ class MessagesStream extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class MessageBubble extends StatelessWidget {
-  MessageBubble({required this.sender, required this.text, required this.isMe});
-
-  final String sender;
-  final String text;
-  final bool isMe;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment:
-            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            sender,
-            style: const TextStyle(
-              color: Colors.black54,
-              fontSize: 12.0,
-            ),
-          ),
-          Material(
-            borderRadius: isMe ? kBorderRadiusRight : kBorderRadiusLeft,
-            color: isMe ? Colors.lightBlueAccent : Colors.white,
-            elevation: 5.0,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: Text(
-                '$text',
-                style: TextStyle(
-                  color: isMe ? Colors.white : Colors.black54,
-                  fontSize: 15.0,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
