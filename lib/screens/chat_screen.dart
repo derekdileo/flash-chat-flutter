@@ -73,6 +73,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     // Message Text Entry
                     child: TextField(
                       autofocus: true,
+                      textCapitalization: TextCapitalization.sentences,
                       controller: messageTextController,
                       onChanged: (value) {
                         messageText = value;
@@ -89,7 +90,6 @@ class _ChatScreenState extends State<ChatScreen> {
                         'timestamp': FieldValue.serverTimestamp(),
                       });
                       messageTextController.clear();
-                      // _scrollDown();
                     },
                     child: const Text(
                       'Send',
@@ -140,17 +140,10 @@ class MessagesStream extends StatelessWidget {
               text: messageText,
               isMe: currentUser == messageSender);
           messageBubbles.add(messageBubble);
-          // _stream.listen((event) {
-          //   if (_scrollController.hasClients) {
-          //     _scrollController
-          //         .jumpTo(_scrollController.position.minScrollExtent);
-          //   }
-          // });
         }
 
         return Expanded(
           child: ListView(
-            // controller: _scrollController,
             reverse: true,
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
