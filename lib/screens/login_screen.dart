@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               // Email entry
               TextField(
+                autofocus: true,
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
                 onChanged: (value) {

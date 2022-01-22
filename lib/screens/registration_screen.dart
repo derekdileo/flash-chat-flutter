@@ -45,6 +45,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               // Email entry
               TextField(
+                autofocus: true,
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
