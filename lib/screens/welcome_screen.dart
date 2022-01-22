@@ -25,7 +25,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void initState() {
     // Initialize AnimationController and ColorTween
     super.initState();
-    Firebase.initializeApp().whenComplete(() {
+    Firebase.initializeApp(
+            options: FirebaseOptions(
+                apiKey: 'AIzaSyAFXb9Nis-G29Obm1Y48Nopc5GA7-R0Rrw',
+                appId: '1:253083651920:android:698a04e83aa58ce9d42655',
+                messagingSenderId: '253083651920',
+                projectId: 'flash-chat-ed5d3'))
+        .whenComplete(() {
       print("Firebase initializeApp() complete"); // setState(() {});
     });
     controller =
