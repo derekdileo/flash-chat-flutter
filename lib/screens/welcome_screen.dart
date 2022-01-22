@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flash_chat_flutter/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:flash_chat_flutter/components/rounded_button.dart';
 import 'package:flash_chat_flutter/screens/login_screen.dart';
 import 'package:flash_chat_flutter/screens/registration_screen.dart';
@@ -25,15 +24,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void initState() {
     // Initialize AnimationController and ColorTween
     super.initState();
-    Firebase.initializeApp(
-            options: FirebaseOptions(
-                apiKey: 'AIzaSyAFXb9Nis-G29Obm1Y48Nopc5GA7-R0Rrw',
-                appId: '1:253083651920:android:698a04e83aa58ce9d42655',
-                messagingSenderId: '253083651920',
-                projectId: 'flash-chat-ed5d3'))
-        .whenComplete(() {
-      print("Firebase initializeApp() complete"); // setState(() {});
-    });
+    initFirebase();
+
+    // Firebase.initializeApp(
+    //                 options: FirebaseOptions(
+    //                     apiKey: 'AIzaSyAFXb9Nis-G29Obm1Y48Nopc5GA7-R0Rrw',
+    //                     appId: '1:253083651920:android:698a04e83aa58ce9d42655',
+    //                     messagingSenderId: '253083651920',
+    //                     projectId: 'flash-chat-ed5d3')
+    //         )
+    //     .whenComplete(() {
+    //   print("Firebase initializeApp() complete");
+    // });
     controller =
         AnimationController(duration: Duration(seconds: 1), vsync: this);
 
@@ -47,6 +49,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     controller.addListener(() {
       setState(() {});
     });
+  }
+
+  void initFirebase() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 
   @override
