@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,7 +16,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
-  final _messageScrollController = ScrollController();
+  // final _messageScrollController = ScrollController();
   final _auth = FirebaseAuth.instance;
   late String messageText;
 
@@ -37,10 +39,10 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _scrollDown() {
-    _messageScrollController
-        .jumpTo(_messageScrollController.position.maxScrollExtent);
-  }
+  // void _scrollDown() {
+  //   _messageScrollController
+  //       .jumpTo(_messageScrollController.position.maxScrollExtent);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,8 @@ class _ChatScreenState extends State<ChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // Messages area
-            MessagesStream(scrollController: _messageScrollController),
+            // MessagesStream(scrollController: _messageScrollController),
+            MessagesStream(),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -74,6 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   // Message field
                   Expanded(
                     child: TextField(
+                      autofocus: true,
                       controller: messageTextController,
                       onChanged: (value) {
                         //Do something with the user input.
@@ -88,9 +92,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       _firestore.collection('messages').add({
                         'sender': signedInUser.email,
                         'text': messageText,
+                        'timestamp': FieldValue.serverTimestamp(),
                       });
                       messageTextController.clear();
-                      _scrollDown();
+                      // _scrollDown();
                     },
                     child: const Text(
                       'Send',
@@ -108,14 +113,14 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 class MessagesStream extends StatelessWidget {
-  final ScrollController scrollController;
-
-  MessagesStream({required this.scrollController});
-
+  final ScrollController _scrollController = ScrollController();
+  final int streamCount = 0;
+  final Stream<QuerySnapshot> _stream =
+      _firestore.collection('messages').orderBy('timestamp').snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('messages').snapshots(),
+      stream: _stream,
       builder: (context, snapshot) {
         // Check if firebase connection successful
         if (!snapshot.hasData) {
@@ -125,12 +130,11 @@ class MessagesStream extends StatelessWidget {
             ),
           );
         }
-        // If so, build a list of text widgets
-        // to populate chat screen.
-        // final messages = snapshot.data?.docs.reversed;
+
         final messages = snapshot.data?.docs.reversed;
 
         List<MessageBubble> messageBubbles = [];
+
         for (var message in messages!) {
           final messageText = message.get('text');
           final messageSender = message.get('sender');
@@ -142,13 +146,20 @@ class MessagesStream extends StatelessWidget {
               text: messageText,
               isMe: currentUser == messageSender);
           messageBubbles.add(messageBubble);
+          _stream.listen((event) {
+            if (_scrollController.hasClients) {
+              _scrollController
+                  .jumpTo(_scrollController.position.minScrollExtent);
+            }
+          });
         }
 
         return Expanded(
           child: ListView(
-            controller: scrollController,
-            reverse: false,
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+            controller: _scrollController,
+            reverse: true,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
           ),
         );
